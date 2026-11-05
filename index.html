@@ -64,7 +64,131 @@
     .first-game-glow { animation: border-glow 3s infinite ease-in-out; border-width: 1.5px !important; }
     .login-input { background-color: #2d3748; border: 1px solid rgba(255, 255, 255, 0.1); color: white; width: 100%; padding: 12px 20px; border-radius: 16px; outline: none; transition: border-color 0.2s; }
     .login-input:focus { border-color: #8b5cf6; }
-  </style>
+  
+    /* CloudMoon: restrained orange and graphite theme */
+    :root {
+      color-scheme: dark;
+      --bg-main: #111214;
+      --primary: #ff8126;
+      --cm-orange: #ff8126;
+      --cm-orange-hover: #e96b16;
+      --cm-bg: #111214;
+      --cm-panel: #191a1d;
+      --cm-panel-raised: #222327;
+      --cm-line: #35363b;
+      --cm-text: #f4f1ec;
+      --cm-muted: #aaa7a0;
+    }
+
+    html, body { background: var(--cm-bg); }
+    .portal-body { background-color: var(--cm-bg) !important; color: var(--cm-text); }
+    ::-webkit-scrollbar-thumb { background: #55565b; }
+
+    .portal-body nav[class*="bg-[#1e2831]"] {
+      background: rgba(17, 18, 20, .96) !important;
+      border-color: var(--cm-line) !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .24);
+      backdrop-filter: blur(14px);
+    }
+    .portal-body [class*="text-[#8b5cf6]"] { color: var(--cm-orange) !important; }
+    .portal-body [class*="bg-[#8b5cf6]"],
+    .portal-body [class*="bg-[#7c3aed]"] {
+      background-color: var(--cm-orange) !important;
+      color: #17110c !important;
+    }
+    .portal-body [class*="hover:bg-[#7c3aed]"]:hover { background-color: var(--cm-orange-hover) !important; }
+    .portal-body [class*="border-[#8b5cf6]"] { border-color: var(--cm-orange) !important; }
+    .portal-body [class*="shadow-purple-"] { box-shadow: 0 8px 24px rgba(255, 129, 38, .13) !important; }
+    .portal-body [class*="border-white/"] { border-color: rgba(255, 255, 255, .1) !important; }
+    .portal-body [class*="text-gray-"] { color: var(--cm-muted) !important; }
+    .portal-body [class*="bg-gray-800"] { background-color: var(--cm-panel-raised) !important; }
+    .portal-body [class*="hover:bg-gray-800"]:hover { background-color: #2d2e32 !important; }
+    .portal-body [class*="hover:bg-gray-700"]:hover { background-color: #303136 !important; }
+
+    #search-input {
+      background: var(--cm-panel) !important;
+      border: 1px solid var(--cm-line) !important;
+      border-radius: 8px !important;
+      color: var(--cm-text) !important;
+    }
+    #search-input::placeholder { color: #89868a !important; }
+    #search-input:focus { border-color: var(--cm-orange) !important; box-shadow: 0 0 0 2px rgba(255, 129, 38, .18); }
+    .portal-body select option { background: var(--cm-panel); color: var(--cm-text); }
+    .portal-body button:focus-visible,
+    .portal-body input:focus-visible,
+    .portal-body select:focus-visible { outline: 2px solid var(--cm-orange); outline-offset: 2px; }
+
+    .category-btn {
+      background: var(--cm-panel-raised);
+      color: var(--cm-muted);
+      border: 1px solid var(--cm-line);
+      border-radius: 6px;
+      transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+    }
+    .category-btn:hover { border-color: rgba(255, 129, 38, .6); color: var(--cm-text); }
+    .category-btn.active {
+      background: var(--cm-orange) !important;
+      border-color: var(--cm-orange) !important;
+      color: #17110c !important;
+    }
+
+    .game-card-item {
+      background: var(--cm-panel) !important;
+      border: 1px solid var(--cm-line) !important;
+      border-radius: 8px !important;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .game-card-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 129, 38, .72) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .32), 0 0 0 1px rgba(255, 129, 38, .12);
+      z-index: 10;
+    }
+    .game-card-item:hover .card-banner { transform: scale(1.035); }
+    .card-overlay {
+      background: linear-gradient(to top, rgba(12, 12, 13, .94) 0%, rgba(15, 15, 16, .48) 48%, transparent 100%);
+    }
+    .card-badge {
+      background: var(--cm-orange) !important;
+      color: #17110c !important;
+      border-radius: 6px !important;
+      box-shadow: none;
+    }
+    @keyframes border-glow {
+      0%, 100% { border-color: rgba(255, 129, 38, .26); box-shadow: 0 0 8px rgba(255, 129, 38, .08); }
+      50% { border-color: rgba(255, 129, 38, .62); box-shadow: 0 0 16px rgba(255, 129, 38, .18); }
+    }
+    .first-game-glow { border-radius: 8px !important; }
+
+    .login-input {
+      background-color: var(--cm-panel-raised) !important;
+      border: 1px solid var(--cm-line) !important;
+      color: var(--cm-text) !important;
+      border-radius: 8px !important;
+    }
+    .login-input:focus { border-color: var(--cm-orange) !important; box-shadow: 0 0 0 2px rgba(255, 129, 38, .16); }
+
+    #modal-container-el,
+    #login-modal > div:nth-of-type(2),
+    #signup-modal > div:nth-of-type(2),
+    #queue-modal > div:nth-of-type(2),
+    #msg-modal > div:nth-of-type(2) {
+      background-color: var(--cm-panel) !important;
+      border: 1px solid var(--cm-line) !important;
+      border-radius: 8px !important;
+      color: var(--cm-text);
+    }
+    .portal-body [class*="rounded-xl"],
+    .portal-body [class*="rounded-2xl"],
+    .portal-body [class*="rounded-3xl"] { border-radius: 8px !important; }
+
+    .portal-body i[data-lucide],
+    .portal-body svg.lucide { stroke: currentColor; }
+    @media (prefers-reduced-motion: reduce) {
+      .game-card-item, .card-banner, .category-btn, .portal-body button { transition-duration: .01ms !important; }
+      .loading-spinner, .first-game-glow { animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+    }
+</style>
 </head>
 <body oncontextmenu="return false;">
   <div id="app">
