@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudMoon - ゲーム一覧</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --orange: #e87924;
+      --orange-dark: #c85e12;
+      --text: #333;
+      --muted: #777;
+      --line: #d9d9d9;
+      --page: #f3f3f3;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-size: 14px;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .site-header {
+      background: var(--white);
+      border-top: 4px solid var(--orange);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      width: min(1100px, calc(100% - 28px));
+      min-height: 58px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .brand {
+      color: #333;
+      font-size: 22px;
+      font-weight: bold;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .brand span { color: var(--orange); }
+    .nav { display: flex; align-self: stretch; }
+    .nav a {
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      color: #555;
+      text-decoration: none;
+      border-left: 1px solid #eee;
+    }
+    .nav a:hover, .nav a.active { color: var(--orange-dark); background: #fafafa; }
+    .header-spacer { flex: 1; }
+    .login-button {
+      padding: 7px 13px;
+      color: #fff;
+      background: var(--orange);
+      border: 1px solid var(--orange-dark);
+      border-radius: 2px;
+    }
+
+    main { width: min(1100px, calc(100% - 28px)); margin: 24px auto 40px; }
+    .page-title {
+      margin: 0 0 16px;
+      padding: 0 0 9px;
+      font-size: 21px;
+      font-weight: normal;
+      border-bottom: 2px solid var(--orange);
+    }
+    .catalog-tools {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+    .search {
+      display: flex;
+      flex: 1;
+      min-width: 180px;
+    }
+    .search input {
+      width: 100%;
+      height: 34px;
+      padding: 6px 9px;
+      border: 1px solid #bbb;
+      border-radius: 2px 0 0 2px;
+      outline-color: var(--orange);
+    }
+    .search button {
+      padding: 0 14px;
+      color: #fff;
+      background: #666;
+      border: 1px solid #555;
+      border-radius: 0 2px 2px 0;
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 5px; }
+    .filter-button {
+      padding: 7px 11px;
+      color: #555;
+      background: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+    .filter-button:hover, .filter-button.active {
+      color: #fff;
+      background: var(--orange);
+      border-color: var(--orange-dark);
+    }
+    .result-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 11px;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .game-card {
+      min-width: 0;
+      padding: 8px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+    }
+    .game-card:hover { border-color: var(--orange); }
+    .game-art {
+      height: 130px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #d98545;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .game-card:nth-child(4n + 2) .game-art { background: #b87952; }
+    .game-card:nth-child(4n + 3) .game-art { background: #ce9c62; }
+    .game-card:nth-child(4n) .game-art { background: #a98664; }
+    .game-name {
+      overflow: hidden;
+      margin: 9px 2px;
+      font-size: 15px;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .game-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 7px;
+      border-top: 1px solid #eee;
+    }
+    .game-category { color: var(--muted); font-size: 12px; }
+    .play-button {
+      padding: 5px 11px;
+      color: #fff;
+      background: var(--orange);
+      border: 1px solid var(--orange-dark);
+      border-radius: 2px;
+    }
+    .empty { display: none; padding: 24px; text-align: center; background: #fff; border: 1px solid var(--line); }
+    footer {
+      padding: 16px;
+      color: #777;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .header-inner { flex-wrap: wrap; gap: 0 12px; padding-top: 8px; }
+      .brand { padding: 7px 0; }
+      .nav { order: 3; width: 100%; height: 42px; border-top: 1px solid #eee; }
+      .nav a { flex: 1; justify-content: center; padding: 0 8px; }
+      .catalog-tools { align-items: stretch; flex-direction: column; }
+      .games-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 420px) {
+      .games-grid { gap: 8px; }
+      .game-art { height: 105px; font-size: 16px; }
+      .game-name { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./">Cloud<span>Moon</span></a>
+      <nav class="nav" aria-label="メインメニュー">
+        <a class="active" href="./">ゲーム一覧</a>
+        <a href="#games">ゲーム</a>
+      </nav>
+      <span class="header-spacer"></span>
+      <button class="login-button" type="button">ログイン</button>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">ゲーム一覧</h1>
+    <section class="catalog-tools" aria-label="ゲーム検索とカテゴリ">
+      <form class="search" id="searchForm">
+        <input id="searchInput" type="search" placeholder="ゲーム名で検索" aria-label="ゲーム名で検索">
+        <button type="submit">検索</button>
+      </form>
+      <div class="filters" aria-label="カテゴリ">
+        <button class="filter-button active" type="button" data-filter="all">すべて</button>
+        <button class="filter-button" type="button" data-filter="action">アクション</button>
+        <button class="filter-button" type="button" data-filter="racing">レース</button>
+        <button class="filter-button" type="button" data-filter="adventure">冒険</button>
+        <button class="filter-button" type="button" data-filter="strategy">戦略</button>
+      </div>
+    </section>
+
+    <div class="result-bar"><span>ゲーム</span><span id="resultCount"></span></div>
+    <section class="games-grid" id="games" aria-label="ゲーム一覧">
+      <article class="game-card" data-category="action">
+        <div class="game-art" aria-hidden="true">スターライトレイジ</div>
+        <h2 class="game-name">スターライトレイジ</h2>
+        <div class="game-footer"><span class="game-category">アクション</span><button class="play-button" type="button">プレイ</button></div>
+      </article>
+      <article class="game-card" data-category="racing">
+        <div class="game-art" aria-hidden="true">サンセットクルージング</div>
+        <h2 class="game-name">サンセットクルージング</h2>
+        <div class="game-footer"><span class="game-category">レース</span><button class="play-button" type="button">プレイ</button></div>
+      </article>
+      <article class="game-card" data-category="adventure">
+        <div class="game-art" aria-hidden="true">月の迷路</div>
+        <h2 class="game-name">月の迷路</h2>
+        <div class="game-footer"><span class="game-category">冒険</span><button class="play-button" type="button">プレイ</button></div>
+      </article>
+      <article class="game-card" data-category="strategy">
+        <div class="game-art" aria-hidden="true">オレンジ帝国</div>
+        <h2 class="game-name">オレンジ帝国</h2>
+        <div class="game-footer"><span class="game-category">戦略</span><button class="play-button" type="button">プレイ</button></div>
+      </article>
+    </section>
+    <p class="empty" id="emptyMessage">該当するゲームはありません。</p>
+  </main>
+
+  <footer>© CloudMoon</footer>
+
+  <script>
+    const cards = [...document.querySelectorAll('.game-card')];
+    const filterButtons = [...document.querySelectorAll('.filter-button')];
+    const searchInput = document.getElementById('searchInput');
+    const resultCount = document.getElementById('resultCount');
+    const emptyMessage = document.getElementById('emptyMessage');
+    let selectedCategory = 'all';
+
+    function updateGames() {
+      const query = searchInput.value.trim().toLocaleLowerCase('ja');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const categoryMatches = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+        const name = card.querySelector('.game-name').textContent.toLocaleLowerCase('ja');
+        const searchMatches = !query || name.includes(query);
+        const visible = categoryMatches && searchMatches;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      resultCount.textContent = `${visibleCount}件`;
+      emptyMessage.style.display = visibleCount ? 'none' : 'block';
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        selectedCategory = button.dataset.filter;
+        filterButtons.forEach(item => item.classList.toggle('active', item === button));
+        updateGames();
+      });
+    });
+
+    searchInput.addEventListener('input', updateGames);
+    document.getElementById('searchForm').addEventListener('submit', event => event.preventDefault());
+    updateGames();
+  </script>
+</body>
+</html>
